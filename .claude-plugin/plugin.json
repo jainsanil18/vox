@@ -1,8 +1,8 @@
 {
   "name": "vox",
   "version": "0.1.0",
-  "description": "Vox - talk to Claude Code, hands-free, on Windows. Wake word + native WinRT speech-to-text in, SAPI speech out. No cloud, no Python.",
+  "description": "Vox - talk to Claude Code, hands-free. Windows: wake word + native WinRT speech-to-text in, SAPI speech out. macOS: spoken replies via say (voice input in progress). No cloud, no Python.",
   "author": { "name": "sanil" },
-  "keywords": ["voice", "tts", "speech-recognition", "windows", "hands-free", "claude-code"],
+  "keywords": ["voice", "tts", "speech-recognition", "windows", "macos", "hands-free", "claude-code"],
   "commands": "./commands"
 }

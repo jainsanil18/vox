@@ -8,7 +8,7 @@
     {
       "name": "vox",
       "source": "./",
-      "description": "Vox - hands-free voice control for Claude Code on Windows. Wake word, WinRT STT, SAPI TTS."
+      "description": "Vox - hands-free voice control for Claude Code on Windows (wake word, WinRT STT, SAPI TTS) and macOS (spoken replies)."
     }
   ]
 }

@@ -1,15 +1,20 @@
 # Vox
 
-**Talk to Claude Code. Hands-free. On Windows.** One mic, one *or many* Claude
-sessions — name each terminal and call it by name.
+**Talk to Claude Code. Hands-free. On Windows — and now macOS.** One mic, one
+*or many* Claude sessions — name each terminal and call it by name.
 
 Vox — Latin for *voice*. Say a wake word, speak your prompt, Claude types it,
-runs it, and answers out loud. 100% native Windows speech — no cloud STT, no
+runs it, and answers out loud. 100% native OS speech — no cloud STT, no
 Python, no browser, no extra services.
+
+> **macOS:** spoken replies work today (see [macOS](#macos)). Voice input —
+> wake word, dictation, the hub — is Windows-only for now.
 
 ## Install
 
-Windows + Claude Code required. In Claude Code, run:
+Windows or macOS + Claude Code required. On Windows, Vox's hooks run through
+Git Bash (Git for Windows), Claude Code's default hook shell. In Claude Code,
+run:
 
 ```
 /plugin marketplace add jainsanil18/vox
@@ -19,7 +24,7 @@ Windows + Claude Code required. In Claude Code, run:
 Pulls straight from GitHub, no clone. **Restart Claude Code** so the hooks
 load.
 
-First run, once:
+First run on Windows, once (macOS needs no setup):
 1. `/vox:check` — verify the WinRT speech engine.
 2. Turn ON **Settings → Privacy & security → Speech → Online speech
    recognition** (Windows requires this for dictation, even on-device).
@@ -36,7 +41,30 @@ Or: `claude --plugin-dir <path>\vox`
 
 ---
 
-## ⭐ Multi-CLI — the Vox Hub (recommended)
+## macOS
+
+Spoken replies use the built-in `say` — no install, no permissions. Needs
+macOS 15 or later (for the bundled `jq`).
+
+```
+/vox:speak on           # Claude reads each reply aloud
+/vox:hush               # cut a long spoken reply short
+/vox:speak off          # stop reading replies
+/vox:test               # speak a test sentence, list installed voices
+/vox:status             # state + recent log
+```
+
+Until voice input lands on macOS, `/vox:speak on` reads **every** reply
+(Windows only reads replies to voiced prompts). Code blocks are skipped and
+markdown is stripped. Pick a voice from `/vox:test` and set it in
+`~/.claude/vox/config.json` (see [Config](#config)).
+
+Voice input on macOS is in progress: a native Speech-framework listener that
+types into Ghostty, iTerm2, Terminal.app, or a tmux pane.
+
+---
+
+## ⭐ Multi-CLI — the Vox Hub (Windows, recommended)
 
 Run several Claude Code sessions and drive them all with one microphone. Each
 terminal gets a name; **"hey &lt;name&gt;" invokes that exact terminal**, and
@@ -71,7 +99,7 @@ Replies come back as *"Nova: tests pass."* `/vox:hub stop` shuts it down.
 
 ---
 
-## Single CLI (simplest, rock-solid)
+## Single CLI (Windows, simplest, rock-solid)
 
 For just one Claude session, skip the hub:
 
@@ -86,6 +114,8 @@ For just one Claude session, skip the hub:
 talking. It sends on your pause. No end-word needed.
 
 ## All commands
+
+On macOS only speak, hush, stop, status, test and list work so far.
 
 ```
 /vox:hub start|stop|status   # multi-CLI tray hub
@@ -104,11 +134,16 @@ talking. It sends on your pause. No end-word needed.
 
 ## Config
 
-`%USERPROFILE%\.claude\windows-voice\config.json` (created on first run):
+Windows: `%USERPROFILE%\.claude\windows-voice\config.json` (created on first run):
 `voice`, `rate` (-10..10), `volume`, `maxChars`, `wakeWords`, `endWords`,
 `sttEngine` (`winrt`|`sapi`), `winrtMinConfidence`, `winrtInitialSilenceSec`,
 `winrtContinueSilenceSec`, `winrtEndSilenceSec`, `duplex`, `ttsTailMs`,
 `hubPort`. Logs and state live in that same folder (`voice.log`).
+
+macOS: `~/.claude/vox/config.json` (create it to override defaults). Uses
+`voice` (a name from `/vox:test`), `rate` (-10..10, same scale as Windows),
+`volume` (0..100), `maxChars` and `speakCodeBlocks`. Logs and state live in
+that same folder.
 
 ## Known limits
 

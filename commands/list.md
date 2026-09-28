@@ -1,10 +1,10 @@
 ---
 description: List all Vox voice commands
-allowed-tools: Bash(powershell:*)
+allowed-tools: Bash(sh:*)
 ---
 
 Run exactly this command and show the user its output verbatim, then stop:
 
 ```
-powershell -NoProfile -ExecutionPolicy Bypass -File "${CLAUDE_PLUGIN_ROOT}/scripts/voice-list.ps1"
+sh "${CLAUDE_PLUGIN_ROOT}/bin/vox" voice-list
 ```
