@@ -1,0 +1,29 @@
+#!/bin/sh
+# vox - cross-platform entry point for the hooks and slash commands.
+#   vox <script> [args...]   e.g.  vox voice-speak on
+# Windows (Git Bash) runs scripts/<script>.ps1; macOS runs scripts/mac/<script>.sh.
+# stdin is passed through untouched (the hooks read their JSON payload from it).
+
+root=$(cd "$(dirname "$0")/.." && pwd)
+name=$1
+shift
+
+case "$(uname -s)" in
+    MINGW* | MSYS* | CYGWIN*)
+        exec powershell -NoProfile -ExecutionPolicy Bypass -File "$root/scripts/$name.ps1" "$@"
+        ;;
+    Darwin)
+        script="$root/scripts/mac/$name.sh"
+        ;;
+    *)
+        echo "Vox: $(uname -s) is not supported yet." >&2
+        exit 0
+        ;;
+esac
+
+if [ ! -f "$script" ]; then
+    # stderr, not stdout: SessionStart hook stdout is injected into Claude's context.
+    echo "Vox: '$name' is not available on macOS yet." >&2
+    exit 0
+fi
+exec /bin/bash "$script" "$@"
